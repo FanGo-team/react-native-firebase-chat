@@ -4,10 +4,10 @@ import firebaseService from '../../services/firebase'
 const FIREBASE_REF_MESSAGES = firebaseService.database().ref('Messages')
 const FIREBASE_REF_MESSAGES_LIMIT = 20
 
-export const sendMessage = message => {
+export const sendMessage = (message, chatRoom) => {
   return (dispatch) => {
     dispatch(chatMessageLoading())
-
+    //                Auth.getCurrentUser()  <===== AWS
     let currentUser = firebaseService.auth().currentUser
     let createdAt = new Date().getTime()
     let chatMessage = {
@@ -19,6 +19,8 @@ export const sendMessage = message => {
       }
     }
 
+
+    // AWS sendMessageAPI ...
     FIREBASE_REF_MESSAGES.push().set(chatMessage, (error) => {
       if (error) {
         dispatch(chatMessageError(error.message))
